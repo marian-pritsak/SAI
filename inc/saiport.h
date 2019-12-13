@@ -1378,6 +1378,18 @@ typedef enum _sai_port_attr_t
     SAI_PORT_ATTR_AUTO_NEG_STATUS,
 
     /**
+     * @brief The hash object for the port the packet ingressed.
+     * Overrides global setting
+     *
+     * @type sai_object_id_t
+     * @flags CREATE_AND_SET
+     * @objects SAI_OBJECT_TYPE_HASH
+     * @allownull true
+     * @default SAI_NULL_OBJECT_ID
+     */
+    SAI_PORT_ATTR_ECMP_HASH_IPV4,
+
+    /**
      * @brief End of attributes
      */
     SAI_PORT_ATTR_END,
