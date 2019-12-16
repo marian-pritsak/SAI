@@ -69,3 +69,17 @@ To achieve this kind of behavior, an Hierarchy of next hop groups is formed - fi
    |                        |        |                        |        |                        |
    +------------------------+        +------------------------+        +------------------------+
 ```
+
+## SAI next hop group member
+The following attribute will be extended with a new allowed type:
+
+    /**
+     * @brief Next hop id
+     *
+     * @type sai_object_id_t
+     * @flags MANDATORY_ON_CREATE | CREATE_ONLY
+     * @objects SAI_OBJECT_TYPE_NEXT_HOP SAI_OBJECT_TYPE_NEXT_HOP_GROUP
+     */
+    SAI_NEXT_HOP_GROUP_MEMBER_ATTR_NEXT_HOP_ID
+    
+Besides the SAI_OBJECT_TYPE_NEXT_HOP the new allowed object type is SAI_OBJECT_TYPE_NEXT_HOP_GROUP. It will allow for chaining the next hop groups into hierarchy.
