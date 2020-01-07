@@ -44,6 +44,9 @@ typedef enum _sai_next_hop_group_type_t
     /** Next hop protection group. Contains primary and backup next hops. */
     SAI_NEXT_HOP_GROUP_TYPE_PROTECTION,
 
+    /** Next hop group is a consistent hashing */
+    SAI_NEXT_HOP_GROUP_TYPE_CONSISTENT_HASHING,
+
     /* Other types of next hop group to be defined in the future, e.g., WCMP */
 
 } sai_next_hop_group_type_t;
@@ -134,6 +137,15 @@ typedef enum _sai_next_hop_group_attr_t
     SAI_NEXT_HOP_GROUP_ATTR_COUNTER_ID,
 
     /**
+     * @brief Number of hash buckets in the group
+     *
+     * @type sai_uint32_t
+     * @flags MANDATORY_ON_CREATE | CREATE_ONLY
+     * @validonly SAI_NEXT_HOP_GROUP_ATTR_TYPE == SAI_NEXT_HOP_GROUP_TYPE_CONSISTENT_HASHING
+     */
+    SAI_NEXT_HOP_GROUP_ATTR_NUM_OF_BUCKETS,
+
+    /**
      * @brief End of attributes
      */
     SAI_NEXT_HOP_GROUP_ATTR_END,
@@ -218,6 +230,14 @@ typedef enum _sai_next_hop_group_member_attr_t
      * @default SAI_NULL_OBJECT_ID
      */
     SAI_NEXT_HOP_GROUP_MEMBER_ATTR_MONITORED_OBJECT,
+
+    /**
+     * @brief Member admin state. Allows for disabling a member without removing it.
+     *
+     * @type bool
+     * @flags MANDATORY_ON_CREATE | CREATE_AND_SET
+     */
+    SAI_NEXT_HOP_GROUP_MEMBER_ATTR_ADMIN_STATE,
 
     /**
      * @brief End of attributes
