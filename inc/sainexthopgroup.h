@@ -271,10 +271,22 @@ typedef enum _sai_next_hop_group_member_attr_t
     /**
      * @brief Member admin state. Allows for disabling a member without removing it.
      *
+     * Should only be used if the type of owning group is SAI_NEXT_HOP_GROUP_TYPE_L4_SESSION_CONSISTENT
+     *
      * @type bool
      * @flags MANDATORY_ON_CREATE | CREATE_AND_SET
      */
     SAI_NEXT_HOP_GROUP_MEMBER_ATTR_ADMIN_STATE,
+
+    /**
+     * @brief Member oper state.
+     *
+     * Should only be used if the type of owning group is SAI_NEXT_HOP_GROUP_TYPE_L4_SESSION_CONSISTENT
+     *
+     * @type sai_next_hop_group_member_oper_status_t
+     * @flags READ_ONLY
+     */
+    SAI_NEXT_HOP_GROUP_MEMBER_ATTR_OPER_STATE,
 
     /**
      * @brief End of attributes
