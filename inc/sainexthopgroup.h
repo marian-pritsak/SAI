@@ -44,8 +44,9 @@ typedef enum _sai_next_hop_group_type_t
     /** Next hop protection group. Contains primary and backup next hops. */
     SAI_NEXT_HOP_GROUP_TYPE_PROTECTION,
 
-    /** Next hop group is a consistent hashing */
-    SAI_NEXT_HOP_GROUP_TYPE_CONSISTENT_HASHING,
+    /** Next hop group is a L4 session aware load balancer. Guarantees the
+     * session consistency across the group updates. */
+    SAI_NEXT_HOP_GROUP_TYPE_L4_SESSION_CONSISTENT,
 
     /* Other types of next hop group to be defined in the future, e.g., WCMP */
 
@@ -141,7 +142,7 @@ typedef enum _sai_next_hop_group_attr_t
      *
      * @type sai_uint32_t
      * @flags MANDATORY_ON_CREATE | CREATE_ONLY
-     * @validonly SAI_NEXT_HOP_GROUP_ATTR_TYPE == SAI_NEXT_HOP_GROUP_TYPE_CONSISTENT_HASHING
+     * @validonly SAI_NEXT_HOP_GROUP_ATTR_TYPE == SAI_NEXT_HOP_GROUP_TYPE_L4_SESSION_CONSISTENT
      */
     SAI_NEXT_HOP_GROUP_ATTR_NUM_OF_BUCKETS,
 
