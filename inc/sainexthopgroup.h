@@ -79,6 +79,42 @@ typedef enum _sai_next_hop_group_member_observed_role_t
 } sai_next_hop_group_member_observed_role_t;
 
 /**
+ * @brief Attribute data for #SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATUS
+ */
+typedef enum _sai_next_hop_group_member_oper_status_t
+{
+    /** Unknown */
+    SAI_NEXT_HOP_GROUP_MEMBER_OPER_UNKNOWN,
+
+    /** Active */
+    SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATUS_ACTIVE,
+
+    /** Draining */
+    SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATUS_DRAINING,
+
+    /** Disabled */
+    SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATUS_DISABLED,
+
+} sai_next_hop_group_member_oper_status_t;
+
+/**
+ * @brief Defines the operational status of the next hop group member
+ */
+typedef struct _sai_next_hop_group_member_oper_status_notification_t
+{
+    /**
+     * @brief Next hop group member id.
+     *
+     * @objects SAI_OBJECT_TYPE_NEXT_HOP_GROUP_MEMBER
+     */
+    sai_object_id_t member_id;
+
+    /** Next hop group member operational status */
+    sai_next_hop_group_member_oper_status_t member_status;
+
+} sai_next_hop_group_member_oper_status_notification_t;
+
+/**
  * @brief Attribute id for next hop
  */
 typedef enum _sai_next_hop_group_attr_t
@@ -356,6 +392,18 @@ typedef sai_status_t (*sai_get_next_hop_group_member_attribute_fn)(
         _In_ sai_object_id_t next_hop_group_member_id,
         _In_ uint32_t attr_count,
         _Inout_ sai_attribute_t *attr_list);
+
+/**
+ * @brief Next hop group member state change notification
+ *
+ * @count data[count]
+ *
+ * @param[in] count Number of notifications
+ * @param[in] data Array of next hop group member operational status
+ */
+typedef void (*sai_next_hop_group_member_state_change_notification_fn)(
+        _In_ uint32_t count,
+        _In_ const sai_next_hop_group_member_oper_status_notification_t *data);
 
 /**
  * @brief Next Hop methods table retrieved with sai_api_query()
