@@ -79,7 +79,7 @@ typedef enum _sai_next_hop_group_member_observed_role_t
 } sai_next_hop_group_member_observed_role_t;
 
 /**
- * @brief Attribute data for #SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATUS
+ * @brief Attribute data for #SAI_NEXT_HOP_GROUP_MEMBER_ATTR_OPER_STATUS
  */
 typedef enum _sai_next_hop_group_member_oper_status_t
 {
@@ -279,14 +279,14 @@ typedef enum _sai_next_hop_group_member_attr_t
     SAI_NEXT_HOP_GROUP_MEMBER_ATTR_ADMIN_STATE,
 
     /**
-     * @brief Member oper state.
+     * @brief Member operational status.
      *
      * Should only be used if the type of owning group is SAI_NEXT_HOP_GROUP_TYPE_L4_SESSION_CONSISTENT
      *
      * @type sai_next_hop_group_member_oper_status_t
      * @flags READ_ONLY
      */
-    SAI_NEXT_HOP_GROUP_MEMBER_ATTR_OPER_STATE,
+    SAI_NEXT_HOP_GROUP_MEMBER_ATTR_OPER_STATUS,
 
     /**
      * @brief End of attributes
