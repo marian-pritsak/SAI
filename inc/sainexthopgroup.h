@@ -79,28 +79,47 @@ typedef enum _sai_next_hop_group_member_observed_role_t
 } sai_next_hop_group_member_observed_role_t;
 
 /**
- * @brief Attribute data for #SAI_NEXT_HOP_GROUP_MEMBER_ATTR_OPER_STATUS
+ * @brief Attribute data for #SAI_NEXT_HOP_GROUP_MEMBER_ATTR_ADMIN_STATE
  */
-typedef enum _sai_next_hop_group_member_oper_status_t
+typedef enum _sai_next_hop_group_member_admin_state_t
 {
-    /** Unknown */
-    SAI_NEXT_HOP_GROUP_MEMBER_OPER_UNKNOWN,
-
     /** Active */
-    SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATUS_ACTIVE,
+    SAI_NEXT_HOP_GROUP_MEMBER_ADMIN_STATE_ACTIVE,
 
-    /** Draining */
-    SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATUS_DRAINING,
+    /** Inactive. Graceful shutdown */
+    SAI_NEXT_HOP_GROUP_MEMBER_ADMIN_STATE_INACTIVE,
 
-    /** Disabled */
-    SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATUS_DISABLED,
+    /** Force inactive. Disruptive to the connections */
+    SAI_NEXT_HOP_GROUP_MEMBER_ADMIN_STATE_FORCE_INACTIVE,
 
-} sai_next_hop_group_member_oper_status_t;
+} sai_next_hop_group_member_admin_state_t;
+
+/**
+ * @brief Attribute data for #SAI_NEXT_HOP_GROUP_MEMBER_ATTR_OPER_STATE
+ */
+typedef enum _sai_next_hop_group_member_oper_state_t
+{
+    /** Inactive. Does not serve any connections and is safe to remove */
+    SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATE_INACTIVE,
+
+    /** Pending becoming active. The new connections are not yet
+     * distributed to that member */
+    SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATE_ACTIVE_PENDING,
+
+    /** Active. Included in the distribution of the new connections */
+    SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATE_ACTIVE,
+
+    /** Pending becoming inactive. The new connections are no longer
+     * distributed to this member, but it still has some open connections,
+     * so it's not yet safe to remove.*/
+    SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATE_INACTIVE_PENDING,
+
+} sai_next_hop_group_member_oper_state_t;
 
 /**
  * @brief Defines the operational status of the next hop group member
  */
-typedef struct _sai_next_hop_group_member_oper_status_notification_t
+typedef struct _sai_next_hop_group_member_oper_state_notification_t
 {
     /**
      * @brief Next hop group member id.
@@ -110,9 +129,9 @@ typedef struct _sai_next_hop_group_member_oper_status_notification_t
     sai_object_id_t member_id;
 
     /** Next hop group member operational status */
-    sai_next_hop_group_member_oper_status_t member_status;
+    sai_next_hop_group_member_oper_state_t member_status;
 
-} sai_next_hop_group_member_oper_status_notification_t;
+} sai_next_hop_group_member_oper_state_notification_t;
 
 /**
  * @brief Attribute id for next hop
@@ -273,7 +292,7 @@ typedef enum _sai_next_hop_group_member_attr_t
      *
      * Should only be used if the type of owning group is SAI_NEXT_HOP_GROUP_TYPE_L4_SESSION_CONSISTENT
      *
-     * @type bool
+     * @type sai_next_hop_group_member_admin_state_t
      * @flags MANDATORY_ON_CREATE | CREATE_AND_SET
      */
     SAI_NEXT_HOP_GROUP_MEMBER_ATTR_ADMIN_STATE,
@@ -283,10 +302,10 @@ typedef enum _sai_next_hop_group_member_attr_t
      *
      * Should only be used if the type of owning group is SAI_NEXT_HOP_GROUP_TYPE_L4_SESSION_CONSISTENT
      *
-     * @type sai_next_hop_group_member_oper_status_t
+     * @type sai_next_hop_group_member_oper_state_t
      * @flags READ_ONLY
      */
-    SAI_NEXT_HOP_GROUP_MEMBER_ATTR_OPER_STATUS,
+    SAI_NEXT_HOP_GROUP_MEMBER_ATTR_OPER_STATE,
 
     /**
      * @brief End of attributes
@@ -415,7 +434,7 @@ typedef sai_status_t (*sai_get_next_hop_group_member_attribute_fn)(
  */
 typedef void (*sai_next_hop_group_member_state_change_notification_fn)(
         _In_ uint32_t count,
-        _In_ const sai_next_hop_group_member_oper_status_notification_t *data);
+        _In_ const sai_next_hop_group_member_oper_state_notification_t *data);
 
 /**
  * @brief Next Hop methods table retrieved with sai_api_query()

@@ -2120,7 +2120,7 @@ typedef enum _sai_switch_attr_t
      * @flags CREATE_AND_SET
      * @default NULL
      */
-    SAI_SWITCH_ATTR_PORT_STATE_CHANGE_NOTIFY,
+    SAI_SWITCH_ATTR_NEXT_HOP_MEMBER_OPER_STATE_CHANGE_NOTIFY,
 
     /**
      * @brief End of attributes
