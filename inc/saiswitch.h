@@ -2111,7 +2111,7 @@ typedef enum _sai_switch_attr_t
      * function passed to the adapter.
      *
      * In case driver does not support this attribute, The Host adapter should poll
-     * port status by SAI_NEXT_HOP_GROUP_MEMBER_ATTR_OPER_STATUS.
+     * member status by SAI_NEXT_HOP_GROUP_MEMBER_ATTR_OPER_STATE.
      *
      * Use sai_next_hop_group_member_state_change_notification_fn
      * as notification function.
@@ -2120,7 +2120,7 @@ typedef enum _sai_switch_attr_t
      * @flags CREATE_AND_SET
      * @default NULL
      */
-    SAI_SWITCH_ATTR_NEXT_HOP_MEMBER_OPER_STATE_CHANGE_NOTIFY,
+    SAI_SWITCH_ATTR_NEXT_HOP_GROUP_MEMBER_STATE_CHANGE_NOTIFY,
 
     /**
      * @brief End of attributes

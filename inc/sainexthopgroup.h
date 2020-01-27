@@ -44,8 +44,10 @@ typedef enum _sai_next_hop_group_type_t
     /** Next hop protection group. Contains primary and backup next hops. */
     SAI_NEXT_HOP_GROUP_TYPE_PROTECTION,
 
-    /** Next hop group is a L4 session aware load balancer. Guarantees the
-     * session consistency across the group updates. */
+    /**
+     * @brief Next hop group is a L4 session aware load balancer. Guarantees the
+     * session consistency across the group updates.
+     */
     SAI_NEXT_HOP_GROUP_TYPE_L4_SESSION_CONSISTENT,
 
     /* Other types of next hop group to be defined in the future, e.g., WCMP */
@@ -99,19 +101,27 @@ typedef enum _sai_next_hop_group_member_admin_state_t
  */
 typedef enum _sai_next_hop_group_member_oper_state_t
 {
-    /** Inactive. Does not serve any connections and is safe to remove */
+    /**
+     * @brief Inactive. Does not serve any connections and is safe to remove
+     */
     SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATE_INACTIVE,
 
-    /** Pending becoming active. The new connections are not yet
-     * distributed to that member */
+    /**
+     * @brief Pending becoming active. The new connections are not yet
+     * distributed to that member
+     */
     SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATE_ACTIVE_PENDING,
 
-    /** Active. Included in the distribution of the new connections */
+    /**
+     * @brief Active. Included in the distribution of the new connections
+     */
     SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATE_ACTIVE,
 
-    /** Pending becoming inactive. The new connections are no longer
+    /**
+     * @brief Pending becoming inactive. The new connections are no longer
      * distributed to this member, but it still has some open connections,
-     * so it's not yet safe to remove.*/
+     * so it's not yet safe to remove.
+     */
     SAI_NEXT_HOP_GROUP_MEMBER_OPER_STATE_INACTIVE_PENDING,
 
 } sai_next_hop_group_member_oper_state_t;
@@ -193,13 +203,13 @@ typedef enum _sai_next_hop_group_attr_t
     SAI_NEXT_HOP_GROUP_ATTR_COUNTER_ID,
 
     /**
-     * @brief Number of hash buckets in the group
+     * @brief Maximum number of sessions that the group can handle
      *
      * @type sai_uint32_t
      * @flags MANDATORY_ON_CREATE | CREATE_ONLY
-     * @validonly SAI_NEXT_HOP_GROUP_ATTR_TYPE == SAI_NEXT_HOP_GROUP_TYPE_L4_SESSION_CONSISTENT
+     * @condition SAI_NEXT_HOP_GROUP_ATTR_TYPE == SAI_NEXT_HOP_GROUP_TYPE_L4_SESSION_CONSISTENT
      */
-    SAI_NEXT_HOP_GROUP_ATTR_NUM_OF_BUCKETS,
+    SAI_NEXT_HOP_GROUP_ATTR_MAX_SESSIONS,
 
     /**
      * @brief End of attributes
