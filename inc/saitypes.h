@@ -275,6 +275,10 @@ typedef enum _sai_object_type_t
     SAI_OBJECT_TYPE_MACSEC_FLOW              = 90,
     SAI_OBJECT_TYPE_MACSEC_SC                = 91,
     SAI_OBJECT_TYPE_MACSEC_SA                = 92,
+    SAI_OBJECT_TYPE_PARSER                   = 93,
+    SAI_OBJECT_TYPE_PARSER_HEADER            = 94,
+    SAI_OBJECT_TYPE_PARSER_TRANSITION        = 95,
+    SAI_OBJECT_TYPE_PARSER_FIELD             = 96,
 
     SAI_OBJECT_TYPE_MAX,  /* Must remain in last position */
 } sai_object_type_t;

@@ -2100,6 +2100,18 @@ typedef enum _sai_switch_attr_t
     SAI_SWITCH_ATTR_MACSEC_OBJECT_ID,
 
     /**
+     * @brief Default SAI Parser ID
+     *
+     * Must return #SAI_STATUS_OBJECT_IN_USE when try to delete this parser.
+     *
+     * @type sai_object_id_t
+     * @flags READ_ONLY
+     * @objects SAI_OBJECT_TYPE_PARSER
+     * @default internal
+     */
+    SAI_SWITCH_ATTR_DEFAULT_PARSER_ID,
+
+    /**
      * @brief End of attributes
      */
     SAI_SWITCH_ATTR_END,

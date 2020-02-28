@@ -1444,6 +1444,16 @@ typedef enum _sai_port_attr_t
     SAI_PORT_ATTR_AUTO_NEG_STATUS,
 
     /**
+     * @brief Port's parser
+     *
+     * @type sai_object_id_t
+     * @flags CREATE_AND_SET
+     * @objects SAI_OBJECT_TYPE_PARSER
+     * @default SAI_NULL_OBJECT_ID
+     */
+    SAI_PORT_ATTR_PARSER_ID,
+
+    /**
      * @brief End of attributes
      */
     SAI_PORT_ATTR_END,
