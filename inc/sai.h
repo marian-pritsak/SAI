@@ -47,6 +47,7 @@
 #include "saiobject.h"
 #include "saipolicer.h"
 #include "saiport.h"
+#include "saiportforwardgroup.h"
 #include "saiqosmap.h"
 #include "saiqueue.h"
 #include "sairoute.h"
@@ -87,51 +88,52 @@
  */
 typedef enum _sai_api_t
 {
-    SAI_API_UNSPECIFIED      =  0, /**< unspecified API */
-    SAI_API_SWITCH           =  1, /**< sai_switch_api_t */
-    SAI_API_PORT             =  2, /**< sai_port_api_t */
-    SAI_API_FDB              =  3, /**< sai_fdb_api_t */
-    SAI_API_VLAN             =  4, /**< sai_vlan_api_t */
-    SAI_API_VIRTUAL_ROUTER   =  5, /**< sai_virtual_router_api_t */
-    SAI_API_ROUTE            =  6, /**< sai_route_api_t */
-    SAI_API_NEXT_HOP         =  7, /**< sai_next_hop_api_t */
-    SAI_API_NEXT_HOP_GROUP   =  8, /**< sai_next_hop_group_api_t */
-    SAI_API_ROUTER_INTERFACE =  9, /**< sai_router_interface_api_t */
-    SAI_API_NEIGHBOR         = 10, /**< sai_neighbor_api_t */
-    SAI_API_ACL              = 11, /**< sai_acl_api_t */
-    SAI_API_HOSTIF           = 12, /**< sai_hostif_api_t */
-    SAI_API_MIRROR           = 13, /**< sai_mirror_api_t */
-    SAI_API_SAMPLEPACKET     = 14, /**< sai_samplepacket_api_t */
-    SAI_API_STP              = 15, /**< sai_stp_api_t */
-    SAI_API_LAG              = 16, /**< sai_lag_api_t */
-    SAI_API_POLICER          = 17, /**< sai_policer_api_t */
-    SAI_API_WRED             = 18, /**< sai_wred_api_t */
-    SAI_API_QOS_MAP          = 19, /**< sai_qos_map_api_t */
-    SAI_API_QUEUE            = 20, /**< sai_queue_api_t */
-    SAI_API_SCHEDULER        = 21, /**< sai_scheduler_api_t */
-    SAI_API_SCHEDULER_GROUP  = 22, /**< sai_scheduler_group_api_t */
-    SAI_API_BUFFER           = 23, /**< sai_buffer_api_t */
-    SAI_API_HASH             = 24, /**< sai_hash_api_t */
-    SAI_API_UDF              = 25, /**< sai_udf_api_t */
-    SAI_API_TUNNEL           = 26, /**< sai_tunnel_api_t */
-    SAI_API_L2MC             = 27, /**< sai_l2mc_api_t */
-    SAI_API_IPMC             = 28, /**< sai_ipmc_api_t */
-    SAI_API_RPF_GROUP        = 29, /**< sai_rpf_group_api_t */
-    SAI_API_L2MC_GROUP       = 30, /**< sai_l2mc_group_api_t */
-    SAI_API_IPMC_GROUP       = 31, /**< sai_ipmc_group_api_t */
-    SAI_API_MCAST_FDB        = 32, /**< sai_mcast_fdb_api_t */
-    SAI_API_BRIDGE           = 33, /**< sai_bridge_api_t */
-    SAI_API_TAM              = 34, /**< sai_tam_api_t */
-    SAI_API_SEGMENTROUTE     = 35, /**< sai_segmentroute_api_t */
-    SAI_API_MPLS             = 36, /**< sai_mpls_api_t */
-    SAI_API_DTEL             = 37, /**< sai_dtel_api_t (experimental) */
-    SAI_API_BFD              = 38, /**< sai_bfd_api_t */
-    SAI_API_ISOLATION_GROUP  = 39, /**< sai_isolation_group_api_t */
-    SAI_API_NAT              = 40, /**< sai_nat_api_t */
-    SAI_API_COUNTER          = 41, /**< sai_counter_api_t */
-    SAI_API_DEBUG_COUNTER    = 42, /**< sai_debug_counter_api_t */
-    SAI_API_MACSEC           = 43, /**< sai_macsec_api_t */
-    SAI_API_MAX              = 44, /**< total number of APIs */
+    SAI_API_UNSPECIFIED        =  0, /**< unspecified API */
+    SAI_API_SWITCH             =  1, /**< sai_switch_api_t */
+    SAI_API_PORT               =  2, /**< sai_port_api_t */
+    SAI_API_FDB                =  3, /**< sai_fdb_api_t */
+    SAI_API_VLAN               =  4, /**< sai_vlan_api_t */
+    SAI_API_VIRTUAL_ROUTER     =  5, /**< sai_virtual_router_api_t */
+    SAI_API_ROUTE              =  6, /**< sai_route_api_t */
+    SAI_API_NEXT_HOP           =  7, /**< sai_next_hop_api_t */
+    SAI_API_NEXT_HOP_GROUP     =  8, /**< sai_next_hop_group_api_t */
+    SAI_API_ROUTER_INTERFACE   =  9, /**< sai_router_interface_api_t */
+    SAI_API_NEIGHBOR           = 10, /**< sai_neighbor_api_t */
+    SAI_API_ACL                = 11, /**< sai_acl_api_t */
+    SAI_API_HOSTIF             = 12, /**< sai_hostif_api_t */
+    SAI_API_MIRROR             = 13, /**< sai_mirror_api_t */
+    SAI_API_SAMPLEPACKET       = 14, /**< sai_samplepacket_api_t */
+    SAI_API_STP                = 15, /**< sai_stp_api_t */
+    SAI_API_LAG                = 16, /**< sai_lag_api_t */
+    SAI_API_POLICER            = 17, /**< sai_policer_api_t */
+    SAI_API_WRED               = 18, /**< sai_wred_api_t */
+    SAI_API_QOS_MAP            = 19, /**< sai_qos_map_api_t */
+    SAI_API_QUEUE              = 20, /**< sai_queue_api_t */
+    SAI_API_SCHEDULER          = 21, /**< sai_scheduler_api_t */
+    SAI_API_SCHEDULER_GROUP    = 22, /**< sai_scheduler_group_api_t */
+    SAI_API_BUFFER             = 23, /**< sai_buffer_api_t */
+    SAI_API_HASH               = 24, /**< sai_hash_api_t */
+    SAI_API_UDF                = 25, /**< sai_udf_api_t */
+    SAI_API_TUNNEL             = 26, /**< sai_tunnel_api_t */
+    SAI_API_L2MC               = 27, /**< sai_l2mc_api_t */
+    SAI_API_IPMC               = 28, /**< sai_ipmc_api_t */
+    SAI_API_RPF_GROUP          = 29, /**< sai_rpf_group_api_t */
+    SAI_API_L2MC_GROUP         = 30, /**< sai_l2mc_group_api_t */
+    SAI_API_IPMC_GROUP         = 31, /**< sai_ipmc_group_api_t */
+    SAI_API_MCAST_FDB          = 32, /**< sai_mcast_fdb_api_t */
+    SAI_API_BRIDGE             = 33, /**< sai_bridge_api_t */
+    SAI_API_TAM                = 34, /**< sai_tam_api_t */
+    SAI_API_SEGMENTROUTE       = 35, /**< sai_segmentroute_api_t */
+    SAI_API_MPLS               = 36, /**< sai_mpls_api_t */
+    SAI_API_DTEL               = 37, /**< sai_dtel_api_t (experimental) */
+    SAI_API_BFD                = 38, /**< sai_bfd_api_t */
+    SAI_API_ISOLATION_GROUP    = 39, /**< sai_isolation_group_api_t */
+    SAI_API_NAT                = 40, /**< sai_nat_api_t */
+    SAI_API_COUNTER            = 41, /**< sai_counter_api_t */
+    SAI_API_DEBUG_COUNTER      = 42, /**< sai_debug_counter_api_t */
+    SAI_API_MACSEC             = 43, /**< sai_macsec_api_t */
+    SAI_API_PORT_FORWARD_GROUP = 44, /**< sai_port_forward_group_api_t */
+    SAI_API_MAX                = 45, /**< total number of APIs */
 } sai_api_t;
 
 /**

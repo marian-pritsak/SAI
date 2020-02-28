@@ -85,6 +85,9 @@ typedef enum _sai_bridge_port_type_t
     /** Bridge tunnel port */
     SAI_BRIDGE_PORT_TYPE_TUNNEL,
 
+    /** Port forward group */
+    SAI_BRIDGE_PORT_TYPE_PORT_FORWARD_GROUP,
+
 } sai_bridge_port_type_t;
 
 /**
@@ -258,6 +261,16 @@ typedef enum _sai_bridge_port_attr_t
      * @default SAI_NULL_OBJECT_ID
      */
     SAI_BRIDGE_PORT_ATTR_ISOLATION_GROUP,
+
+    /**
+     * @brief Associated port forward grouop
+     *
+     * @type sai_object_id_t
+     * @flags MANDATORY_ON_CREATE | CREATE_ONLY
+     * @objects SAI_OBJECT_TYPE_PORT_FORWARD_GROUP
+     * @condition SAI_BRIDGE_PORT_ATTR_TYPE == SAI_BRIDGE_PORT_TYPE_PORT_FORWARD_GROUP
+     */
+    SAI_BRIDGE_PORT_ATTR_PORT_FORWARD_GROUP_ID,
 
     /**
      * @brief End of attributes
