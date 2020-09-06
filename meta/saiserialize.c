@@ -593,7 +593,7 @@ int sai_deserialize_macsec_salt(
         _In_ const char *buffer,
         _Out_ sai_macsec_salt_t salt)
 {
-    int arr[12];
+    int arr[32];
     int read;
 
     int n = sscanf(buffer, "%2X:%2X:%2X:%2X:%2X:%2X:%2X:%2X:%2X:%2X:%2X:%2X:%2X:%2X:%2X:%2X:\
@@ -607,9 +607,9 @@ int sai_deserialize_macsec_salt(
                    &arr[24], &arr[25], &arr[26], &arr[27],
                    &arr[28], &arr[29], &arr[30], &arr[31], &read);
 
-    if (n == 12 && read == (12*3-1))
+    if (n == 32 && read == (32*3-1))
     {
-        for (n = 0; n < 12; n++)
+        for (n = 0; n < 32; n++)
         {
             salt[n] = (uint8_t)arr[n];
         }
@@ -954,6 +954,7 @@ int sai_deserialize_ip4_mask(
 
     if (value == 0)
     {
+        /* mask is all zeros */
     }
     else if (value == 32)
     {
@@ -1031,6 +1032,7 @@ int sai_deserialize_ip6_mask(
 
     if (value == 128)
     {
+        /* mask is all ones */
     }
     else if (value == 64)
     {

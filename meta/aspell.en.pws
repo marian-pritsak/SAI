@@ -46,6 +46,7 @@ SerDes
 Src
 TLV
 TODO
+Uncorrectable
 Unicast
 Uninitialize
 Untagged
@@ -114,6 +115,7 @@ param
 passparam
 pkts
 policer
+reachability
 routable
 rv
 rx
@@ -133,6 +135,7 @@ uBurst
 uBursts
 ucast
 unicast
+unordered
 untagged
 validonly
 versa
