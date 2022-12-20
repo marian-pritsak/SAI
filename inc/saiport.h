@@ -2164,6 +2164,20 @@ typedef enum _sai_port_attr_t
     SAI_PORT_ATTR_MAX_FEC_SYMBOL_ERRORS_DETECTABLE,
 
     /**
+     * @brief Enable TC ans ingress port -> Queue MAP on port
+     *
+     * Map id = #SAI_NULL_OBJECT_ID to disable map on port.
+     * Default no map, i.e. all packets to queue 0.
+     *
+     * @type sai_object_id_t
+     * @flags CREATE_AND_SET
+     * @objects SAI_OBJECT_TYPE_QOS_MAP
+     * @allownull true
+     * @default SAI_NULL_OBJECT_ID
+     */
+    SAI_PORT_ATTR_QOS_TC_AND_INGRESS_PORT_TO_QUEUE_MAP,
+
+    /**
      * @brief End of attributes
      */
     SAI_PORT_ATTR_END,
