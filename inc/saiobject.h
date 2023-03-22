@@ -37,6 +37,16 @@
 #include <saisrv6.h>
 
 /* new experimental object type includes */
+#include "../experimental/saiexperimentaldashvip.h"
+#include "../experimental/saiexperimentaldashpavalidation.h"
+#include "../experimental/saiexperimentaldashvnet.h"
+#include "../experimental/saiexperimentaldashoutboundrouting.h"
+#include "../experimental/saiexperimentaldashoutboundcatopa.h"
+#include "../experimental/saiexperimentaldashinboundrouting.h"
+#include "../experimental/saiexperimentaldasheni.h"
+#include "../experimental/saiexperimentaldashtag.h"
+#include "../experimental/saiexperimentaldashdirectionlookup.h"
+#include "../experimental/saiexperimentaldashacl.h"
 #include <saiexperimentalbmtor.h>
 
 /**
@@ -83,6 +93,33 @@ typedef union _sai_object_key_entry_t
 
     /** @validonly object_type == SAI_OBJECT_TYPE_MY_SID_ENTRY */
     sai_my_sid_entry_t        my_sid_entry;
+
+    /** @validonly object_type == SAI_OBJECT_TYPE_DIRECTION_LOOKUP_ENTRY */
+    sai_direction_lookup_entry_t direction_lookup_entry;
+
+    /** @validonly object_type == SAI_OBJECT_TYPE_DST_TAG_ENTRY */
+    sai_dst_tag_entry_t dst_tag_entry;
+
+    /** @validonly object_type == SAI_OBJECT_TYPE_SRC_TAG_ENTRY */
+    sai_src_tag_entry_t src_tag_entry;
+
+    /** @validonly object_type == SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY */
+    sai_eni_ether_address_map_entry_t eni_ether_address_map_entry;
+
+    /** @validonly object_type == SAI_OBJECT_TYPE_INBOUND_ROUTING_ENTRY */
+    sai_inbound_routing_entry_t inbound_routing_entry;
+
+    /** @validonly object_type == SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY */
+    sai_outbound_ca_to_pa_entry_t outbound_ca_to_pa_entry;
+
+    /** @validonly object_type == SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY */
+    sai_outbound_routing_entry_t outbound_routing_entry;
+
+    /** @validonly object_type == SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY */
+    sai_pa_validation_entry_t pa_validation_entry;
+
+    /** @validonly object_type == SAI_OBJECT_TYPE_VIP_ENTRY */
+    sai_vip_entry_t vip_entry;
 
     /* Add new experimental entries above this line */
 
