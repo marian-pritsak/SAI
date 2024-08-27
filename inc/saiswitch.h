@@ -3049,7 +3049,7 @@ typedef enum _sai_switch_attr_t
     SAI_SWITCH_ATTR_MAX_ICMP_ECHO_SESSION,
 
     /**
-     * @brief List of TCs eligible for trimming
+     * @brief List of TC eligible for trimming
      *
      * @type sai_u8_list_t
      * @flags CREATE_AND_SET

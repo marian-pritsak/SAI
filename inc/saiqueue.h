@@ -116,7 +116,7 @@ typedef enum _sai_queue_packet_discard_action_t
      * queue.
      */
     SAI_QUEUE_PACKET_DISCARD_ACTION_TRIM = 0x00000001,
-} sai_queue_packet_discard_action_t
+} sai_queue_packet_discard_action_t;
 
 /**
  * @brief Enum defining queue attributes.
