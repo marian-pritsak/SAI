@@ -51,7 +51,9 @@ This feature assumes that forwarding tables are configured properly, and the ori
 
 ## Spec
 There is a tradeoff between trying to configure a higher threshold in a queue buffer profile and trimming the packet.
+
 If the user chooses to configure higher thresholds for queues, the probability of a drop on a particular queue is lower only if other ports are less congested at the moment.
+
 However, if all the ports are equally utilized, it makes sense to create a different buffer profile for these queues, with a stricter threshold to have more fairness in shared buffer.
 
 For that, we propose adding a new attribute to a buffer profile to allow configuring packet trimming on such stricter profiles:
