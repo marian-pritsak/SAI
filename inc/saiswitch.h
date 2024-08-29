@@ -3053,7 +3053,7 @@ typedef enum _sai_switch_attr_t
      *
      * @type sai_uint32_t
      * @flags CREATE_AND_SET
-     * @default 0
+     * @default 128
      */
     SAI_SWITCH_ATTR_PACKET_TRIMMING_SIZE,
 
