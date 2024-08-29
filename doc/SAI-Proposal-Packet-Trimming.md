@@ -1,4 +1,4 @@
-# Switch Abstraction Interface Change Proposal
+# Switch Abstraction Interface Change Proposal for Packet Trimming
 
 Title       | Packet Trimming
 ------------|----------------
