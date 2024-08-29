@@ -10,8 +10,131 @@ SAI-Version | 1.14
 ----------
 
 ## Overview
+When the lossy queue exceeds a threshold, it silently drops packets without any notification to the destination host.
+In this case a usual recovery method on the host is a timeout, after which the packet will be retransmitted according to a protocol definition.
+
+To help the host recover data more quickly, we introduce a packet trimming feature, that upon a failed packet admission to a shared buffer,
+will trim a packet to a configured size, and try sending it on a different queue to deliver a packet drop notification to an end host.
+
+```
+                                                                                                                                        
+                                                                                       ┌───────────────┐                                
+                                                                                       │               │                                
+                                                                                       │Trimmed packet │                                
+                                                                                       │               │                                
+                                                                                       └───────────────┘                                
+                                                                                                                                        
+                                                                                                    ┌─┬─┬─┬─┬────────┐                  
+                                                                                                    │ │ │ │ │        │                  
+                                                                                                    │ │ │ │ │        │                  
+                                                                                   ┌────────────────► │ │ │ │        │                  
+                                                                                   │                │ │ │ │ │        │    Queue         
+                                                                                   │                │ │ │ │ │        │                  
+                                                                                   │                │ │ │ │ │        │                  
+                                                                                   │                └─┴─┴─┴─┴────────┘                  
+     ┌──────────────┐                                                              │                                                    
+     │              │  ┌──────────────────────────────────────────────────────┐    │                ┌─┬─┬─┬─┬─┬─┬─┬─┬┐                  
+     │              │  │                                                      │    │                │ │ │ │ │ │ │ │ ││                  
+     │              │  │                                                      │    │     \   /      │ │ │ │ │ │ │ │ ││                  
+     │              │  │                                                      │    │      \ /       │ │ │ │ │ │ │ │ ││                  
+     │    Packet    │  │           Pipeilne                                   ┼────┼───────\────────► │ │ │ │ │ │ │ ││     Queue        
+     │              │  │                                                      │           / \       │ │ │ │ │ │ │ │ ││                  
+     │              │  │                                                      │          /   \      │ │ │ │ │ │ │ │ ││                  
+     │              │  └──────────────────────────────────────────────────────┘                     └─┴─┴─┴─┴─┴─┴─┴─┴┘                  
+     │              │                                                                                                                   
+     │              │                                                                                                                   
+     │              │                                                                                                                   
+     └──────────────┘                                                                                                                   
+```
+
+This feature assumes that forwarding tables are configured properly, and the original packet would be delivered to the destination successfully if not for the congestion.
 
 ## Spec
+There is a tradeoff between trying to configure a higher threshold in a queue buffer profile and trimming the packet.
+If the user chooses to configure higher thresholds for queues, the probability of a drop on a particular queue is lower only if other ports are less congested at the moment.
+However, if all the ports are equally utilized, it makes sense to create a different buffer profile for these queues, with a stricter threshold to have more fairness in shared buffer.
+
+For that, we propose adding a new attribute to a buffer profile to allow configuring packet trimming on such stricter profiles:
+```
+/**
+ * @brief Enum defining queue actions in case of packet discard.
+ */
+typedef enum _sai_buffer_profile_packet_discard_action_t
+{
+    /**
+     * @brief Drop the packet.
+     *
+     * Default action. Packet has nowhere to go
+     * and will be dropped.
+     */
+    SAI_BUFFER_PROFILE_PACKET_DISCARD_ACTION_DROP = 0x00000000,
+
+    /**
+     * @brief Trim the packet.
+     *
+     * Try sending a shortened packet over a different
+     * queue.
+     */
+    SAI_BUFFER_PROFILE_PACKET_DISCARD_ACTION_TRIM = 0x00000001,
+} sai_buffer_profile_packet_discard_action_t;
+
+   /**
+     * @brief Buffer profile discard action
+     *
+     * Action to be taken upon packet discard due to
+     * buffer profile configuration. Applicable only
+     * when attached to a queue.
+     *
+     * @type sai_buffer_profile_packet_discard_action_t
+     * @flags CREATE_AND_SET
+     * @default SAI_BUFFER_PROFILE_PACKET_DISCARD_ACTION_DROP
+     */
+    SAI_BUFFER_PROFILE_ATTR_PACKET_DISCARD_ACTION,
+```
+
+Trimming engine attributes are configured globally.
+```
+   /**
+     * @brief Packet trimming size
+     *
+     * @type sai_uint32_t
+     * @flags CREATE_AND_SET
+     * @default 128
+     */
+    SAI_SWITCH_ATTR_PACKET_TRIMMING_SIZE,
+
+    /**
+     * @brief New packet trimming DSCP value
+     *
+     * @type sai_uint8_t
+     * @flags CREATE_AND_SET
+     * @default 0
+     */
+    SAI_SWITCH_ATTR_PACKET_TRIMMING_DSCP_VALUE,
+
+    /**
+     * @brief New packet trimming queue index
+     *
+     * @type sai_uint8_t
+     * @flags CREATE_AND_SET
+     * @default 0
+     */
+    SAI_SWITCH_ATTR_PACKET_TRIMMING_QUEUE_INDEX,
+```
+
+If more granularity is needed (e.g. trim a specific protocol, or packets within protocol), ACL action is added to disable trimming even if the packet is eligible due to a queue with a buffer profile attached that has trimming enabled.
+```
+   /**
+     * @brief Disable packet trimming for a given match condition.
+     *
+     * This rule takes effect only when packet trimming is configured on a TC to which a packet belongs.
+     *
+     * @type sai_acl_action_data_t bool
+     * @flags CREATE_AND_SET
+     * @default disabled
+     */
+    SAI_ACL_ENTRY_ATTR_ACTION_DISABLE_TRIMMING = SAI_ACL_ENTRY_ATTR_ACTION_START + 0x39,
+```
 
 ## Examples
-
+TBD
