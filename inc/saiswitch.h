@@ -3049,7 +3049,7 @@ typedef enum _sai_switch_attr_t
     SAI_SWITCH_ATTR_MAX_ICMP_ECHO_SESSION,
 
     /**
-     * @brief Packet trimming size
+     * @brief Maximum size of the packet after trimming
      *
      * @type sai_uint32_t
      * @flags CREATE_AND_SET
