@@ -10,10 +10,11 @@ SAI-Version | 1.14
 ----------
 
 ## Overview
-When the lossy queue exceeds a threshold, it silently drops packets without any notification to the destination host.
-In this case a usual recovery method on the host is a timeout, after which the packet will be retransmitted according to a protocol definition.
+When the lossy queue exceeds a buffer threshold, it drops packets without any notification to the destination host.
 
-To help the host recover data more quickly, we introduce a packet trimming feature, that upon a failed packet admission to a shared buffer,
+When a packet is lost, it can be recovered through fast retransmission (e.g., Go-Back-N in RoCE) or by using timeouts. Retransmission triggered by timeouts typically incurs significant latency. Packet trimming aims to facilitate rapid packet loss notification and, consequently, eliminate slow timeout-based retransmissions.
+
+To help the host recover data more quickly and accurately, we introduce a packet trimming feature, that upon a failed packet admission to a shared buffer,
 will trim a packet to a configured size, and try sending it on a different queue to deliver a packet drop notification to an end host.
 
 ```
@@ -56,7 +57,7 @@ If the user chooses to configure higher thresholds for queues, the probability o
 
 However, if all the ports are equally utilized, it makes sense to create a different buffer profile for these queues, with a stricter threshold to have more fairness in shared buffer.
 
-For that, we propose adding a new attribute to a buffer profile to allow configuring packet trimming on such stricter profiles:
+A static trimming threshold may not be effective with shared buffer switches, where the buffer resources allocated to a queue or port can vary over time. Therefore, we propose adding a new attribute to a buffer profile to allow configuring packet trimming on such stricter profiles:
 ```
 /**
  * @brief Enum defining queue actions in case of packet discard.
