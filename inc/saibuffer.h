@@ -547,9 +547,9 @@ typedef enum _sai_buffer_profile_threshold_mode_t
 } sai_buffer_profile_threshold_mode_t;
 
 /**
- * @brief Enum defining queue actions in case of packet discard.
+ * @brief Enum defining queue actions in case the packet fails to pass the admission control.
  */
-typedef enum _sai_buffer_profile_packet_discard_action_t
+typedef enum _sai_buffer_profile_packet_admission_fail_action_t
 {
     /**
      * @brief Drop the packet.
@@ -557,7 +557,7 @@ typedef enum _sai_buffer_profile_packet_discard_action_t
      * Default action. Packet has nowhere to go
      * and will be dropped.
      */
-    SAI_BUFFER_PROFILE_PACKET_DISCARD_ACTION_DROP = 0x00000000,
+    SAI_BUFFER_PROFILE_PACKET_ADMISSION_FAIL_ACTION_DROP = 0x00000000,
 
     /**
      * @brief Trim the packet.
@@ -565,8 +565,8 @@ typedef enum _sai_buffer_profile_packet_discard_action_t
      * Try sending a shortened packet over a different
      * queue.
      */
-    SAI_BUFFER_PROFILE_PACKET_DISCARD_ACTION_TRIM = 0x00000001,
-} sai_buffer_profile_packet_discard_action_t;
+    SAI_BUFFER_PROFILE_PACKET_ADMISSION_FAIL_ACTION_TRIM = 0x00000001,
+} sai_buffer_profile_packet_admission_fail_action_t;
 
 /**
  * @brief Enum defining buffer profile attributes.
